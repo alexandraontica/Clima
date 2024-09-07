@@ -161,8 +161,21 @@ class WeatherModel {
   }
 
   List<String> getWeekDaysWithCompleteWeather(dynamic hourlyForecast) {
-    int timezone = hourlyForecast['city']['timezone'];
-    List<dynamic> forecastList = hourlyForecast['list'];
+    int timezone;
+    List<dynamic> forecastList;
+
+    try {
+      timezone = hourlyForecast['city']['timezone'];
+      forecastList = hourlyForecast['list'];
+    } catch(e) {
+      timezone = 0;
+      forecastList = [
+        {
+          'dt': 10,
+        }
+      ];
+    }
+
     Map<String, int> occurrences = {};
     List<String> completeDays = [];
 
@@ -182,6 +195,7 @@ class WeatherModel {
         completeDays.add(entry.key);
       }
     }
+
     return completeDays;
   }
 
@@ -219,12 +233,33 @@ class WeatherModel {
       forecastConditions[day] = [];
     }
 
-    int timezone = hourlyForecast['city']['timezone'];
-    List<dynamic> forecastList = hourlyForecast['list'];
+    int timezone;
+    List<dynamic> forecastList;
+
+    try {
+      timezone = hourlyForecast['city']['timezone'];
+      forecastList = hourlyForecast['list'];
+    } catch(e) {
+      timezone = 0;
+      forecastList = [
+        {
+          'dt': 0,
+          'main': {
+            'temp_max': 15.0,
+            'temp_min': 15.0,
+          },
+          'weather': [
+            {
+              'id': 900,
+            }
+          ],
+        }
+      ];
+    }
 
     for (var forecast in forecastList) {
       String day = TimeModel().convertTimestampToLocalDayOfWeek(
-        forecast['dt'],
+        forecast['dt'] ?? 0,
         timezone,
       );
 
