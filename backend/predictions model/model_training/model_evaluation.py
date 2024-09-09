@@ -5,6 +5,8 @@ from math import sqrt
 def evaluate_model(model, x_train, y_train, x_test, y_test):
     predictions_train = model.predict(x_train)
     predictions_test = model.predict(x_test)
+    print(predictions_test)
+    print(y_test)
 
     mse_train = mean_squared_error(y_train, predictions_train)
     mse_test = mean_squared_error(y_test, predictions_test)

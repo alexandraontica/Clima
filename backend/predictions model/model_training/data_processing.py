@@ -14,10 +14,15 @@ def load_and_clean_data(file):
     df.reset_index(inplace=True, drop=True)
 
     # drop unnecessary columns (loud cover has 0 values, the date doesn't play a role in our predictions)
-    df = df.drop(columns=["Loud Cover", "Formatted Date"])
-
-    # drop rows where precip type is null
-    df = df[df["Precip Type"].notna()]
+    df = df.drop(
+        columns=[
+            "Loud Cover",
+            "Formatted Date",
+            "Daily Summary",
+            "Summary",
+            "Precip Type",
+        ]
+    )
 
     # handle outliers
     df = df[df["Humidity"] != 0.0]

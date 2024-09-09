@@ -19,14 +19,6 @@ def transform_features(df):
     power_transformer = FunctionTransformer(lambda x: x**2, validate=True)
     df["Humidity"] = power_transformer.transform(df[["Humidity"]].values)
 
-    # feature encoding
-    df["Precip Type"] = df["Precip Type"].astype("category").cat.codes
-    encoded_summary = pd.get_dummies(df["Summary"])
-    encoded_daily_summary = pd.get_dummies(df["Daily Summary"])
-    df = df.join(encoded_summary)
-    df = df.join(encoded_daily_summary)
-    df = df.drop(columns=["Daily Summary", "Summary"])
-
     return df
 
 
