@@ -46,7 +46,7 @@ class _ForecastScreenState extends State<ForecastScreen> {
                     bottom: 15.0,
                   ),
                   children: List.generate(
-                    forecastWeatherInfo.length * 2 + 2,
+                    forecastWeatherInfo.length + 1,
                     (int index) {
                       if (index == 0) {
                         return Container(
@@ -60,28 +60,9 @@ class _ForecastScreenState extends State<ForecastScreen> {
                           ),
                         );
                       }
-                      if (index == forecastWeatherInfo.length + 1) {
-                        return Container(
-                          color: kBackgroundColor,
-                          child: const Align(
-                            alignment: Alignment(0, 0.75),
-                            child: Text(
-                              'Predictions',
-                              style: kTitleTextStyle,
-                            ),
-                          ),
-                        );
-                      }
-                      if (index <= forecastWeatherInfo.length) {
-                        return DailyForecastCard(
-                          dayOfWeek: forecastWeatherInfo[index - 1]['day'],
-                          forecastWeather: forecastWeatherInfo[index - 1]
-                              ['weather'],
-                        );
-                      }
                       return DailyForecastCard(
-                        dayOfWeek: forecastWeatherInfo[index - forecastWeatherInfo.length - 2]['day'],
-                        forecastWeather: forecastWeatherInfo[index - forecastWeatherInfo.length - 2]
+                        dayOfWeek: forecastWeatherInfo[index - 1]['day'],
+                        forecastWeather: forecastWeatherInfo[index - 1]
                             ['weather'],
                       );
                     },
