@@ -4,7 +4,7 @@ from data_processing import load_and_clean_data
 from feature_transformation import transform_features, standardize_data
 from model_evaluation import evaluate_model
 
-df = load_and_clean_data("./weatherHistory.csv")
+df = load_and_clean_data("../training data/weatherHistory.csv")
 
 df = transform_features(df)
 
