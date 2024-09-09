@@ -14,7 +14,7 @@ df_target = pd.DataFrame(
     df["Apparent Temperature (C)"], columns=["Apparent Temperature (C)"]
 )  # the column we want to predict
 x_train, x_test, y_train, y_test = train_test_split(
-    df_data, df_target, test_size=0.2, random_state=42
+    df_data, df_target, test_size=0.3, random_state=42
 )
 
 x_train_scaled, x_test_scaled, y_train_scaled, y_test_scaled = standardize_data(
@@ -27,7 +27,7 @@ from sklearn.decomposition import PCA
 # pca = PCA()
 # pca.fit(x_train)
 # pca.explained_variance_ratio_
-pca = PCA(n_components=11)
+pca = PCA(n_components=6)
 pca.fit(x_train)
 pca_x_train = pca.transform(x_train)
 pca_x_test = pca.transform(x_test)
@@ -37,6 +37,11 @@ from sklearn import linear_model
 
 lm = linear_model.LinearRegression()
 model = lm.fit(pca_x_train, y_train)
+
+import joblib
+
+joblib.dump(model, "../apparent_temp_prediction_model.pkl")
+joblib.dump(pca, "../pca_transform.pkl")
 
 evaluation = evaluate_model(model, pca_x_train, y_train, pca_x_test, y_test)
 

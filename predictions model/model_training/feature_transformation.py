@@ -20,12 +20,12 @@ def transform_features(df):
     df["Humidity"] = power_transformer.transform(df[["Humidity"]].values)
 
     # feature encoding
-    df["Precip Type"] = df["Precip Type"].astype("category").cat.codes
-    encoded_summary = pd.get_dummies(df["Summary"])
-    encoded_daily_summary = pd.get_dummies(df["Daily Summary"])
-    df = df.join(encoded_summary)
-    df = df.join(encoded_daily_summary)
-    df = df.drop(columns=["Daily Summary", "Summary"])
+    # df["Precip Type"] = df["Precip Type"].astype("category").cat.codes
+    # encoded_summary = pd.get_dummies(df["Summary"])
+    # encoded_daily_summary = pd.get_dummies(df["Daily Summary"])
+    # df = df.join(encoded_summary)
+    # df = df.join(encoded_daily_summary)
+    # df = df.drop(columns=["Daily Summary", "Summary"])
 
     return df
 
@@ -47,11 +47,20 @@ def standardize_data(x_train, x_test, y_train, y_test):
     scaler_train.fit(x_train[std_columns])
     x_train_scaled = scaler_train.transform(x_train[std_columns])
     x_test_scaled = scaler_train.transform(x_test[std_columns])
+    # df_x_train_standardized = pd.DataFrame(x_train_scaled, columns = std_columns)
+    # df_x_test_standardized = pd.DataFrame(x_test_scaled, columns = std_columns)
 
     # for target data
     scaler_target = StandardScaler()
     scaler_target.fit(y_train)
     y_train_scaled = scaler_target.transform(y_train)
     y_test_scaled = scaler_target.transform(y_test)
+    # df_y_train_standardized = pd.DataFrame(y_train_scaled, columns = ['Apparent Temperature (C)'])
+    # df_y_test_standardized = pd.DataFrame(y_test_scaled, columns = ['Apparent Temperature (C)'])
+
+    # x_train[std_columns] = df_x_train_standardized
+    # x_test[std_columns] = df_x_test_standardized
+    # y_train = df_y_train_standardized
+    # y_test = df_y_test_standardized
 
     return x_train_scaled, x_test_scaled, y_train_scaled, y_test_scaled
