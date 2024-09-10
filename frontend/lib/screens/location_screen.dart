@@ -70,20 +70,6 @@ class _LocationScreenState extends State<LocationScreen> {
         sunriseTimestamp = 1725514838;
         sunsetTimestamp = 1725565244;
         timezone = 0;
-        // hourlyForecastList = List.generate(
-        //     8,
-        //     (index) => {
-        //           'weather': [
-        //             {
-        //               'id': 900,
-        //               'icon': '01d',
-        //             }
-        //           ],
-        //           'dt': 0,
-        //           'main': {
-        //             'temp': 15,
-        //           }
-        //         });
 
         print(e);
       }

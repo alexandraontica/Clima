@@ -57,10 +57,13 @@ class HourlyForecastCard extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: predicttedApparentTemp == 100 ? EdgeInsets.only(top: 0.0) : EdgeInsets.only(top: 8.0),
             child: Text(
-              "Feels like ${predicttedApparentTemp.toInt()}°",
+              predicttedApparentTemp == 100
+                  ? "No prediction available"
+                  : "Feels like ${predicttedApparentTemp.toInt()}°",
               style: kHourlyAppTempTextStyle,
+              textAlign: TextAlign.center,
             ),
           )
         ],

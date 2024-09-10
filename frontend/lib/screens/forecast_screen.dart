@@ -20,6 +20,8 @@ class ForecastScreen extends StatefulWidget {
 
 class _ForecastScreenState extends State<ForecastScreen> {
   late List<Map> forecastWeatherInfo;
+  late List hourlyForecastList;
+  late int timezone;
 
   @override
   void initState() {
@@ -31,6 +33,27 @@ class _ForecastScreenState extends State<ForecastScreen> {
     setState(() {
       forecastWeatherInfo =
           WeatherModel().getForecastWeatherInfo(hourlyForecast);
+
+      try {
+        hourlyForecastList = hourlyForecast['list'];
+        timezone = hourlyForecast["city"]["timezone"];
+      } catch (e) {
+        hourlyForecastList = List.generate(
+            8,
+            (index) => {
+                  'weather': [
+                    {
+                      'id': 900,
+                      'icon': '01d',
+                    }
+                  ],
+                  'dt': 0,
+                  'main': {
+                    'temp': 15,
+                  }
+                });
+        timezone = 0;
+      }
     });
   }
 
@@ -56,22 +79,24 @@ class _ForecastScreenState extends State<ForecastScreen> {
                   children: List.generate(
                     8, // the api returns the forecast with a 3-hour step, so in 24 hours there are 8 elements
                     (int index) => HourlyForecastCard(
-                      forecast: widget.hourlyForecast["list"][index],
-                      timezone: widget.hourlyForecast["city"]["timezone"],
+                      forecast: hourlyForecastList[index],
+                      timezone: timezone,
                       index: index,
-                      predicttedApparentTemp: widget.predictions["predictions"][index],
+                      predicttedApparentTemp: widget.predictions is int
+                          ? 100
+                          : widget.predictions["predictions"][index],
                     ),
                     growable: false,
                   ),
                 ),
               ),
               Text(
-                "Ⓘ The apparent temperature was predicted using AI"
+                "Ⓘ The apparent temperature is predicted using AI",
               ),
               Expanded(
                 child: CarouselView(
                   scrollDirection: Axis.vertical,
-                  itemExtent: 125.0,
+                  itemExtent: 120.0,
                   padding: const EdgeInsets.only(
                     left: 20.0,
                     right: 20.0,
@@ -84,7 +109,7 @@ class _ForecastScreenState extends State<ForecastScreen> {
                         return Container(
                           color: kBackgroundColor,
                           child: const Align(
-                            alignment: Alignment(0, 0.75),
+                            alignment: Alignment(0, 0.5),
                             child: Text(
                               'Daily Forecast',
                               style: kTitleTextStyle,

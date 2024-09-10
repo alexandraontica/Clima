@@ -10,9 +10,10 @@ app = Flask(__name__)
 @app.route("/predict", methods=["POST"])
 def predict_temp():
     forecast_data_json = request.get_json()
-    forecast_data = forecast_data_json["list"]
 
     try:
+        forecast_data = forecast_data_json["list"]
+
         csv_data = {
             "Formatted Date": [],
             "Temperature (C)": [],

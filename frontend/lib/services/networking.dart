@@ -33,7 +33,10 @@ class Networking {
       headers: headers,
       body: body,
     );
-
-    return jsonDecode(response.body);
+    try {
+      return jsonDecode(response.body);
+    } catch(e) {
+      return response.statusCode;
+    }
   }
 }
