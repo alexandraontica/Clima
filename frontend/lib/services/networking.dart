@@ -6,7 +6,7 @@ class Networking {
 
   final String urlString;
 
-  Future getData () async {
+  Future getData() async {
     Uri url = Uri.parse(urlString);
 
     http.Response response = await http.get(url);
@@ -17,5 +17,23 @@ class Networking {
     } else {
       return response.statusCode;
     }
+  }
+
+  Future postRequest(dynamic body) async {
+    Uri url = Uri.parse(urlString);
+
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+    };
+
+    body = jsonEncode(body);
+
+    http.Response response = await http.post(
+      url,
+      headers: headers,
+      body: body,
+    );
+
+    return jsonDecode(response.body);
   }
 }

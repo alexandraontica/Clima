@@ -77,6 +77,11 @@ const kHourlyTempTextStyle = TextStyle(
   fontSize: 35.0,
 );
 
+const kHourlyAppTempTextStyle = TextStyle(
+  fontFamily: 'Spartan MB',
+  fontSize: 18.0,
+);
+
 const kForecastTempTextStyle = TextStyle(
   fontFamily: 'Spartan MB',
   fontSize: 25.0,

@@ -24,6 +24,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
     var weatherData = await WeatherModel().getLocationWeather(location);
     var hourlyForecast = await WeatherModel().getHourlyLocationForecast(location);
+    var predictions = await WeatherModel().getApparentTempPredictions(hourlyForecast);
 
     Navigator.push(
       context,
@@ -31,6 +32,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         builder: (context) => Navbar(
           locationWeather: weatherData,
           hourlyForecast: hourlyForecast,
+          predictions: predictions,
         ),
       ),
     );

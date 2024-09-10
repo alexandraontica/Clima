@@ -9,10 +9,12 @@ class Navbar extends StatefulWidget {
     super.key,
     required this.locationWeather,
     required this.hourlyForecast,
+    required this.predictions,
   });
 
   final dynamic locationWeather;
   final dynamic hourlyForecast;
+  final dynamic predictions;
 
   @override
   State<Navbar> createState() => _NavbarState();
@@ -30,25 +32,25 @@ class _NavbarState extends State<Navbar> {
     _widgetOptions = <Widget>[
       LocationScreen(
         locationWeather: widget.locationWeather,
-        hourlyForecast: widget.hourlyForecast,
         onLocationChange: locationChange,
       ),
       ForecastScreen(
         hourlyForecast: widget.hourlyForecast,
+        predictions: widget.predictions,
       ),
       CityScreen(onCityChange: cityChange),
     ];
   }
 
-  void locationChange(dynamic locationWeather, dynamic hourlyForecast) {
+  void locationChange(dynamic locationWeather, dynamic hourlyForecast, dynamic predictions) {
     setState(() {
       _widgetOptions[0] = LocationScreen(
           locationWeather: locationWeather,
-          hourlyForecast: hourlyForecast,
           onLocationChange: locationChange,
         );
       _widgetOptions[1] = ForecastScreen(
         hourlyForecast: hourlyForecast,
+        predictions: predictions,
       );
     });
   }
@@ -57,7 +59,8 @@ class _NavbarState extends State<Navbar> {
     if (city != '') {
       var locationWeather = await WeatherModel().getCityWeather(city);
       var hourlyForecast = await WeatherModel().getHourlyCityForecast(city);
-      locationChange(locationWeather, hourlyForecast);
+      var predictions = await WeatherModel().getApparentTempPredictions(hourlyForecast);
+      locationChange(locationWeather, hourlyForecast, predictions);
 
       currentPageIndex = 0;
     }

@@ -4,19 +4,16 @@ import 'package:clima/services/weather.dart';
 import 'package:clima/services/location.dart';
 import 'package:clima/components/image_weather_card.dart';
 import 'package:clima/components/additional_info_card.dart';
-import 'package:clima/components/hourly_forecast_card.dart';
 
 class LocationScreen extends StatefulWidget {
   const LocationScreen({
     super.key,
     required this.locationWeather,
-    required this.hourlyForecast,
     required this.onLocationChange,
   });
 
   final dynamic locationWeather;
-  final dynamic hourlyForecast;
-  final Function(dynamic, dynamic) onLocationChange;
+  final Function(dynamic, dynamic, dynamic) onLocationChange;
 
   @override
   State<LocationScreen> createState() => _LocationScreenState();
@@ -40,10 +37,10 @@ class _LocationScreenState extends State<LocationScreen> {
   @override
   void initState() {
     super.initState();
-    updateUI(widget.locationWeather, widget.hourlyForecast);
+    updateUI(widget.locationWeather);
   }
 
-  void updateUI(dynamic weatherData, dynamic hourlyForecast) {
+  void updateUI(dynamic weatherData) {
     setState(() {
       try {
         temperature = weatherData['main']['temp'];
@@ -58,7 +55,6 @@ class _LocationScreenState extends State<LocationScreen> {
         sunriseTimestamp = weatherData['sys']['sunrise'];
         sunsetTimestamp = weatherData['sys']['sunset'];
         timezone = weatherData['timezone'];
-        hourlyForecastList = hourlyForecast['list'];
 
         // the font doesn't support the letter ț
         cityName = cityName.replaceAll('ț', 't');
@@ -74,20 +70,20 @@ class _LocationScreenState extends State<LocationScreen> {
         sunriseTimestamp = 1725514838;
         sunsetTimestamp = 1725565244;
         timezone = 0;
-        hourlyForecastList = List.generate(
-            8,
-            (index) => {
-                  'weather': [
-                    {
-                      'id': 900,
-                      'icon': '01d',
-                    }
-                  ],
-                  'dt': 0,
-                  'main': {
-                    'temp': 15,
-                  }
-                });
+        // hourlyForecastList = List.generate(
+        //     8,
+        //     (index) => {
+        //           'weather': [
+        //             {
+        //               'id': 900,
+        //               'icon': '01d',
+        //             }
+        //           ],
+        //           'dt': 0,
+        //           'main': {
+        //             'temp': 15,
+        //           }
+        //         });
 
         print(e);
       }
@@ -126,9 +122,10 @@ class _LocationScreenState extends State<LocationScreen> {
                             await weatherModel.getLocationWeather(location);
                         var hourlyForecast = await WeatherModel()
                             .getHourlyLocationForecast(location);
+                        var predictions = await weatherModel.getApparentTempPredictions(hourlyForecast);
 
-                        updateUI(weatherData, hourlyForecast);
-                        widget.onLocationChange(weatherData, hourlyForecast);
+                        updateUI(weatherData);
+                        widget.onLocationChange(weatherData, hourlyForecast, predictions);
                       },
                       child: const Icon(
                         Icons.location_on,
@@ -153,25 +150,6 @@ class _LocationScreenState extends State<LocationScreen> {
                 sunriseTimestamp: sunriseTimestamp,
                 sunsetTimestamp: sunsetTimestamp,
                 timezone: timezone,
-              ),
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 120.0),
-                child: CarouselView(
-                  itemExtent: 200,
-                  padding: const EdgeInsets.only(
-                    left: 20.0,
-                    bottom: 8.0,
-                  ),
-                  children: List.generate(
-                    8, // the api returns the forecast with a 3-hour step, so in 24 hours there are 8 elements
-                    (int index) => HourlyForecastCard(
-                      forecast: hourlyForecastList[index],
-                      timezone: timezone,
-                      index: index,
-                    ),
-                    growable: false,
-                  ),
-                ),
               ),
             ],
           ),

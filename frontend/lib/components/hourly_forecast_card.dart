@@ -9,11 +9,13 @@ class HourlyForecastCard extends StatelessWidget {
     required this.forecast,
     required this.timezone,
     required this.index,
+    required this.predicttedApparentTemp,
   });
 
   final dynamic forecast;
   final int timezone;
   final int index;
+  final double predicttedApparentTemp;
 
   @override
   Widget build(BuildContext context) {
@@ -23,31 +25,44 @@ class HourlyForecastCard extends StatelessWidget {
 
     return Container(
       color: index == 0 ? kBlueColor : kCardColor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            WeatherModel().getWeatherIcon(condition, dayOrNight),
-            style: kTempTextStyle,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                TimeModel().convertTimestampToLocalTime(forecast['dt'], timezone),
-                style: kHourTextStyle,
+                WeatherModel().getWeatherIcon(condition, dayOrNight),
+                style: kTempTextStyle,
               ),
-              const SizedBox(
-                height: 5.0,
-              ),
-              Text(
-                '${forecast['main']['temp'].toInt()}°',
-                style: kHourlyTempTextStyle,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    TimeModel()
+                        .convertTimestampToLocalTime(forecast['dt'], timezone),
+                    style: kHourTextStyle,
+                  ),
+                  const SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(
+                    '${forecast['main']['temp'].toInt()}°',
+                    style: kHourlyTempTextStyle,
+                  ),
+                ],
               ),
             ],
           ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(
+              "Feels like ${predicttedApparentTemp.toInt()}°",
+              style: kHourlyAppTempTextStyle,
+            ),
+          )
         ],
       ),
     );
