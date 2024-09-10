@@ -6,6 +6,8 @@ This is a **cross-platform Flutter weather app** with a **Flask backend** for ma
   <source src="./readme files/demo.mp4" type="video/mp4">
 </video>
 
+[*** Watch a short demo here***](https://drive.google.com/file/d/1zkjNAogObAJCqQ997K6khvL-Vhe288Fp/view?usp=sharing)
+
 ## Backend
 
 This Flask-based backend is responsible for receiving weather forecast data, transforming it into a structured format, and **predicting the apparent temperature using a machine learning model trained with linear regression**.
