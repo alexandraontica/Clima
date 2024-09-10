@@ -1,7 +1,14 @@
 # Clima
+
+This is a **cross-platform Flutter weather app** with a **Flask backend** for making predictions using a **machine learning model**. It identifies the user's current location, fetches current weather data, hourly forecasts, and displays weather information based on the user's location or a specific city.
+
+<video height=600 controls>
+  <source src="./readme files/demo.mp4" type="video/mp4">
+</video>
+
 ## Backend
 
-This Flask-based backend is responsible for receiving weather forecast data, transforming it into a structured format, and predicting the apparent temperature using a machine learning model trained with linear regression.
+This Flask-based backend is responsible for receiving weather forecast data, transforming it into a structured format, and **predicting the apparent temperature using a machine learning model trained with linear regression**.
 
 ### Features
 - Accepts weather forecast data via a POST request in JSON format.
@@ -10,24 +17,22 @@ This Flask-based backend is responsible for receiving weather forecast data, tra
 - Returns the apparent temperature predictions in JSON format.
 
 ### Prerequisites
-1. **Python 3.x**
+1. **Python 3**
 2. **Flask**
 3. **Pandas**
 4. **Joblib**
 5. **Scikit-learn**
 
-Ensure you have the necessary Python packages installed. You can install them via `pip`:
-
-```bash
-pip install flask pandas scikit-learn joblib
-```
-
 ### Running the Backend
 
 1. Ensure that the required Python packages are installed.
-2. Run the Flask app:
+```bash
+pip install flask pandas scikit-learn joblib
+```
+2. Run the Flask app.
 
 ```bash
+cd backend
 python app.py
 ```
 
@@ -78,7 +83,7 @@ The request must contain a list of hourly weather data under the `list` key. Eac
 {
   "list": [
     {
-      "dt": 1633024800,
+      "dt": 1726001396,
       "main": {
         "temp": 22.5,
         "humidity": 77,
@@ -109,7 +114,7 @@ The API responds with a list of predicted apparent temperatures corresponding to
 
 ### Model Training
 
-The model used for predicting the apparent temperature is based on linear regression with PCA for dimensionality reduction. The model was trained using weather data from the [Szeged Weather dataset](https://www.kaggle.com/datasets/budincsevity/szeged-weather).
+The model used for predicting the apparent temperature is based on **linear regression with PCA** for dimensionality reduction. The model was trained using weather data from the [Szeged Weather dataset](https://www.kaggle.com/datasets/budincsevity/szeged-weather).
 
 #### Training Workflow
 
@@ -120,7 +125,7 @@ The model used for predicting the apparent temperature is based on linear regres
 3. Standardize the features.
 4. Apply PCA to reduce dimensions.
 5. Train a linear regression model on the processed data.
-6. Evaluate the model using metrics such as MSE, RMSE, and R-squared.
+6. Evaluate the model using metrics such as MSE, RMSE.
 
 #### Model Evaluation Metrics
 
@@ -134,3 +139,124 @@ The model used for predicting the apparent temperature is based on linear regres
   - Score: 98.99%
 
 The model and PCA transformation are saved as `.pkl` files and used in the prediction workflow.
+
+
+## Frontend
+### Features
+
+- Get the user's current location
+- Handle location permissions, including errors if permissions are denied.
+- Get weather data for the user's current location or a selected city searched by the user.
+- Display weather icons, descriptions, and forecast data.
+- Display temperature, humidity, wind speed, sunrise, sunset, and weather conditions.
+- Fetch apparent temperature predictions from the backend.
+- Interactive UI with a clean design for easy navigation.
+
+### Getting Started
+
+#### Prerequisites
+
+- Flutter SDK
+- Dart SDK
+- Geolocator Plugin: Used for obtaining the user's current location.
+- HTTP Package: Used for making network requests.
+- Intl Package: Used for timestamp handling and date-time conversions using different timezones.
+- Flutter_spinkit Package: Used for the loading animation while the app fetches the necessary data.
+
+#### Running the Frontend
+
+1. Ensure that you have installed Flutter and connected a mobile device or emulator to run the app on.
+2. Install dependencies.
+```bash
+cd frontend
+flutter pub get
+```
+3. Run the Flutter app.
+```bash
+flutter run
+```
+
+### Project Structure
+
+#### Screens Overview
+
+- **Loading Screen (`loading_screen.dart`)**: 
+  - Displays a loading indicator while fetching weather data.
+  - Responsible for obtaining the user’s current location, weather information and predictions on app start.
+
+- **Location Screen (`location_screen.dart`)**:
+  - Displays the current weather for the user's current location.
+  - Features:
+    - Weather icon, temperature, city name, local time, humidity, wind speed, sunrise time, and sunset time.
+    - Button for refetching the user's location and displaying weather data for that location (top right corner).
+
+    <img src="./readme files/location_screen.jpg" height=500 alt="location screen">
+
+- **Forecast Screen (`forecast_screen.dart`)**:
+    - Shows hourly weather forecast with the apparent temperature predictions made by the machine learning model.
+    - Shows the weather forecast for the coming days.
+
+    <img src="./readme files/forecast_screen.jpg" height=500 alt="forecast screen">
+
+- **City Screen (`city_screen.dart`)**: 
+    - Search bar for manually looking up weather data for another city.
+
+    <img src="./readme files/city_screen.jpg" height=500 alt="city screen">
+
+#### Reusable UI Components
+
+- **Additional Info Card (`additional_info_card.dart`)**:
+  - A card that displays additional weather information such as wind speed or humidity.
+
+- **Daily Forecast Card (`daily_forecast_card.dart`)**:
+  - Displays a weather forecast for a specific day, including the day of the week, weather conditions, and temperature range.
+
+- **Hourly Forecast Card (`hourly_forecast_card.dart`)**:
+  - Displays weather information for a specific hour, including temperature, forecast conditions, and the predicted apparent temperature.
+
+- **Image Weather Card (`image_weather_card.dart`)**:
+  - Displays current weather conditions along with a background image representing day or night on the main screen (location_screen). Shows current weather data, temperature, apparent temperature, and local time.
+
+- **Navbar (`navbar.dart`)**:
+  - Allows the user to navigate between current weather, forecast/predictions, and city search.
+
+#### Services Overview
+
+#### Location Service (`location.dart`)
+
+This service handles:
+
+- Fetching the user's current location using the `Geolocator` package.
+- Handling location permissions, including checking whether permissions are granted or denied.
+- Error handling for cases where the location services are disabled or permissions are permanently denied.
+
+#### Time Service (`time.dart`)
+
+This service provides time-related utilities:
+
+- Convert UTC timestamps into local time based on a given timezone.
+- Format the date and time in human-readable formats.
+- Get the local day of the week and time from timestamps.
+
+#### Networking Service (`networking.dart`)
+
+This service handles:
+
+- Making HTTP GET requests to retrieve data from the OpenWeatherMap API.
+- Making HTTP POST requests to send data (weather forecasts) to the backend server and retrieve predicted apparent temperatures.
+- Decoding JSON responses and returning the data to be used within the app.
+
+#### Weather Service (`weather.dart`)
+
+This service is responsible for:
+
+- Fetching current weather and hourly forecast data from the OpenWeatherMap API.
+- Constructing API URLs for both location-based and city-based queries.
+- Parsing the weather data, including temperatures, conditions, and weather icons.
+- Providing methods to convert raw forecast data into readable weather conditions (e.g., maximum and minimum temperatures, weather conditions).
+- Fetching apparent temperature predictions from the Flask backend.
+  
+### APIs Used
+
+- **OpenWeatherMap API**: Used to fetch real-time weather and forecast data.
+- **Flask Backend (localhost)**
