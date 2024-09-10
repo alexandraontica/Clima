@@ -125,12 +125,12 @@ The model used for predicting the apparent temperature is based on linear regres
 #### Model Evaluation Metrics
 
 - Train set:
-  - MSE: X.XX
-  - RMSE: X.XX
-  - Score: XX%
+  - MSE: 1.12,
+  - RMSE: 1.06,
+  - Score: 99.01%
 - Test set:
-  - MSE: X.XX
-  - RMSE: X.XX
-  - Score: XX%
+  - MSE: 1.13,
+  - RMSE: 1.06,
+  - Score: 98.99%
 
 The model and PCA transformation are saved as `.pkl` files and used in the prediction workflow.
