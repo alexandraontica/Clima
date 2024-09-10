@@ -8,7 +8,7 @@ df = load_and_clean_data("../training data/weatherHistory.csv")
 
 df = transform_features(df)
 
-# split the data set (80% - train, 20% - test)
+# split the data set (70% - train, 30% - test)
 df_data = df.drop("Apparent Temperature (C)", axis=1)
 df_target = pd.DataFrame(
     df["Apparent Temperature (C)"], columns=["Apparent Temperature (C)"]

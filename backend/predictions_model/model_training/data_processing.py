@@ -21,7 +21,8 @@ def load_and_clean_data(file):
             "Daily Summary",
             "Summary",
             "Precip Type",
-        ]
+        ],
+        errors='ignore',
     )
 
     # handle outliers
