@@ -59,10 +59,17 @@ const kConditionTextStyle = TextStyle(
 );
 
 const kAdditionalWeatherInfoTextStyle = TextStyle(
-  fontWeight: FontWeight.w900,
+  fontFamily: 'Spartan MB',
+  fontSize: 20.0,
 );
 
-const kLabelWeatherInfoTextStyle = TextStyle(
+const kLabelAdditionlInfoTextStyle = TextStyle(
+  fontFamily: 'Spartan MB',
+  color: Color(0xb0ffffff),
+  fontSize: 17.0,
+);
+
+const kAIGeneratedTextStyle = TextStyle(
   color: Color(0xb0ffffff),
 );
 
@@ -111,7 +118,6 @@ const kTextFieldInputDecoration = InputDecoration(
   ),
   hintText: 'Enter City Name',
   hintStyle: TextStyle(
-    // color: Color(0x5a000000),
     color: Color(0x2affffff),
   ),
   border: OutlineInputBorder(

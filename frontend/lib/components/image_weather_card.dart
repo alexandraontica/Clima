@@ -39,8 +39,8 @@ class ImageWeatherCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(30.0),
       ),
       margin: const EdgeInsets.only(
-        left: 20.0,
-        right: 20.0,
+        left: 18.0,
+        right: 18.0,
         top: 10.0,
       ),
       padding: const EdgeInsets.all(10.0),

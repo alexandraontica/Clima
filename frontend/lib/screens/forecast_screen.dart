@@ -92,6 +92,7 @@ class _ForecastScreenState extends State<ForecastScreen> {
               ),
               Text(
                 "Ⓘ The apparent temperature is predicted using AI",
+                style: kAIGeneratedTextStyle,
               ),
               Expanded(
                 child: CarouselView(

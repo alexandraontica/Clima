@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 import 'package:clima/services/weather.dart';
 import 'package:clima/services/location.dart';
+import 'package:clima/services/time.dart';
 import 'package:clima/components/image_weather_card.dart';
 import 'package:clima/components/additional_info_card.dart';
 
@@ -108,10 +109,12 @@ class _LocationScreenState extends State<LocationScreen> {
                             await weatherModel.getLocationWeather(location);
                         var hourlyForecast = await WeatherModel()
                             .getHourlyLocationForecast(location);
-                        var predictions = await weatherModel.getApparentTempPredictions(hourlyForecast);
+                        var predictions = await weatherModel
+                            .getApparentTempPredictions(hourlyForecast);
 
                         updateUI(weatherData);
-                        widget.onLocationChange(weatherData, hourlyForecast, predictions);
+                        widget.onLocationChange(
+                            weatherData, hourlyForecast, predictions);
                       },
                       child: const Icon(
                         Icons.location_on,
@@ -130,12 +133,71 @@ class _LocationScreenState extends State<LocationScreen> {
                 currentTimestamp: currentTimestamp,
                 timezone: timezone,
               ),
-              AdditionalInfoCard(
-                humidity: humidity,
-                windSpeed: windSpeed,
-                sunriseTimestamp: sunriseTimestamp,
-                sunsetTimestamp: sunsetTimestamp,
-                timezone: timezone,
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: AdditionalInfoCard(
+                        label: 'Humidity',
+                        info: '${humidity.toString()}%',
+                        icon: Icons.water_drop_outlined,
+                        margins: EdgeInsets.only(
+                          left: 18.0,
+                          top: 10.0,
+                          right: 4.0,
+                          bottom: 4.0,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: AdditionalInfoCard(
+                        label: 'Wind Speed',
+                        info: '${windSpeed.toInt()} km/h',
+                        icon: Icons.wind_power_outlined,
+                        margins: EdgeInsets.only(
+                          right: 18.0,
+                          top: 10.0,
+                          left: 4.0,
+                          bottom: 4.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: AdditionalInfoCard(
+                        label: 'Sunrise',
+                        info: TimeModel().convertTimestampToLocalTime(
+                            sunriseTimestamp, timezone),
+                        icon: Icons.wb_twilight_sharp,
+                        margins: EdgeInsets.only(
+                          left: 18.0,
+                          bottom: 10.0,
+                          right: 4.0,
+                          top: 4.0,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: AdditionalInfoCard(
+                        label: 'Sunset',
+                        info: TimeModel().convertTimestampToLocalTime(
+                            sunsetTimestamp, timezone),
+                        icon: Icons.wb_twilight_rounded,
+                        margins: EdgeInsets.only(
+                          right: 18.0,
+                          bottom: 10.0,
+                          left: 4.0,
+                          top: 4.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
