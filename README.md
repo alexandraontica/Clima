@@ -2,11 +2,9 @@
 
 This is a **cross-platform Flutter weather app** with a **Flask backend** for making predictions using a **machine learning model**. It identifies the user's current location, fetches current weather data, hourly forecasts, and displays weather information based on the user's location or a specific city.
 
-<video height=600 controls>
-  <source src="./readme files/demo.mp4" type="video/mp4">
-</video>
-
 [*** Watch a short demo here***](https://drive.google.com/file/d/1zkjNAogObAJCqQ997K6khvL-Vhe288Fp/view?usp=sharing)
+
+![Demo of the project](readme_files/demo.gif)
 
 ## Backend
 
@@ -192,18 +190,18 @@ flutter run
     - Weather icon, temperature, city name, local time, humidity, wind speed, sunrise time, and sunset time.
     - Button for refetching the user's location and displaying weather data for that location (top right corner).
 
-    <img src="./readme files/location_screen.jpg" height=500 alt="location screen">
+    <img src="./readme_files/location_screen.jpg" height=500 alt="location screen">
 
 - **Forecast Screen (`forecast_screen.dart`)**:
     - Shows hourly weather forecast with the apparent temperature predictions made by the machine learning model.
     - Shows the weather forecast for the coming days.
 
-    <img src="./readme files/forecast_screen.jpg" height=500 alt="forecast screen">
+    <img src="./readme_files/forecast_screen.jpg" height=500 alt="forecast screen">
 
 - **City Screen (`city_screen.dart`)**: 
     - Search bar for manually looking up weather data for another city.
 
-    <img src="./readme files/city_screen.jpg" height=500 alt="city screen">
+    <img src="./readme_files/city_screen.jpg" height=500 alt="city screen">
 
 #### Reusable UI Components
 
